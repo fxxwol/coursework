@@ -16,16 +16,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(op => op.UseNpgsql(connectio
 
 builder.Services.AddTransient<IPersonService, PersonService>();
 
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.ApplyMigrations();
+}
+
+// Apply pending migrations during application startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
 }
 
 app.MapControllers();
 app.Run();
-
