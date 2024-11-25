@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetApiPostgres.Api.Models;
 
-[Route("api")]
+[Route("api/people")]
 [ApiController]
 public class PeopleController : ControllerBase
 {
